@@ -10,7 +10,9 @@ module PulsarSdk
 
       def grab_cnx
         topic = @opts.topic
-        @conn = @client.connection(*@client.lookup(topic))
+        conxn_vars = @client.lookup(topic)
+        conxn_vars[0] = @opts.address
+        @conn = @client.connection(conxn_vars)
         @established = true
 
         @seq_generator = SeqGenerator.new(@conn.seq_generator)
